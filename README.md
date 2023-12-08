@@ -14,14 +14,14 @@
 ## Паттерны проектирования
 Реализовать паттерны, объяснить применимость каждого паттерна, плюсы и минусы, а также реальные примеры использования паттерна на практике.
 
-1. Паттерн «фасад».
-2. Паттерн «строитель».
-3. Паттерн «посетитель».
-4. Паттерн «команда».
-5. Паттерн «цепочка вызовов».
-6. Паттерн «фабричный метод».
-7. Паттерн «стратегия».
-8. Паттерн «состояние».
+1. Паттерн [«фасад»](https://en.wikipedia.org/wiki/Facade_pattern).
+2. Паттерн [«строитель»](https://en.wikipedia.org/wiki/Builder_pattern).
+3. Паттерн [«посетитель»](https://en.wikipedia.org/wiki/Visitor_pattern).
+4. Паттерн [«команда»](https://en.wikipedia.org/wiki/Command_pattern).
+5. Паттерн [«цепочка вызовов»](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern).
+6. Паттерн [«фабричный метод»](https://en.wikipedia.org/wiki/Factory_method_pattern).
+7. Паттерн [«стратегия»](https://en.wikipedia.org/wiki/Strategy_pattern).
+8. Паттерн [«состояние»](https://en.wikipedia.org/wiki/State_pattern).
 
 
 ## Задачи на разработку
