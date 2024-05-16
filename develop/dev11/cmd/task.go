@@ -1,5 +1,14 @@
 package main
 
+import (
+	"encoding/json"
+	"github.com/AtaullinShamil/wbschool_exam_L2/tree/main/develop/dev11/internal/handler"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+)
+
 /*
 === HTTP server ===
 
@@ -22,6 +31,62 @@ package main
 	4. Код должен проходить проверки go vet и golint.
 */
 
-func main() {
-
+type Config struct {
+	Server struct {
+		Host string `json:"host"`
+		Port string `json:"port"`
+	} `json:"server"`
 }
+
+func getConfig(fileName string) (string, error) {
+	file, err := os.Open("config.json")
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	byteValue, err := ioutil.ReadAll(file)
+	if err != nil {
+		return "", err
+	}
+
+	var config Config
+
+	err = json.Unmarshal(byteValue, &config)
+	if err != nil {
+		return "", err
+	}
+
+	hostPort := config.Server.Host + ":" + config.Server.Port
+	return hostPort, nil
+}
+
+func loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println("Incoming request:", r.Method, r.URL.Path)
+		next.ServeHTTP(w, r)
+	})
+}
+
+func main() {
+	hostPort, err := getConfig("config.json")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	mux := http.NewServeMux()
+	mux.HandleFunc("/create_event", handler.CreateEventHandler)        //Post
+	mux.HandleFunc("/update_event", handler.UpdateEventHandler)        //Post
+	mux.HandleFunc("/delete_event", handler.DeleteEventHandler)        //Post
+	mux.HandleFunc("/events_for_day", handler.EventsForDayHandler)     //Get
+	mux.HandleFunc("/events_for_week", handler.EventsForWeekHandler)   //Get
+	mux.HandleFunc("/events_for_month", handler.EventsForMonthHandler) //Get
+
+	http.ListenAndServe(hostPort, loggingMiddleware(mux))
+}
+
+//{
+//"title": "Party",
+//"description": "for wb",
+//"start": "2024.02.03",
+//"end": "2024.02.04"
+//}

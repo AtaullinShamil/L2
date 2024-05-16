@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+	"sort"
+	"strings"
+)
+
 /*
 === Поиск анаграмм по словарю ===
 
@@ -19,6 +25,62 @@ package main
 Программа должна проходить все тесты. Код должен проходить проверки go vet и golint.
 */
 
-func main() {
+func findAnagramGroups(words []string) map[string][]string {
+	groups := make(map[string][]string)
 
+	for _, word := range words {
+		added := false
+
+		word = strings.ToLower(word)
+		sorted := sortLetters(word)
+		for key, _ := range groups {
+			sortedKey := sortLetters(key)
+			if sortedKey == sorted {
+				groups[key] = append(groups[key], word)
+				added = true
+				break
+			}
+		}
+		if added == true {
+			continue
+		} else {
+			groups[word] = append(groups[word], word)
+		}
+	}
+
+	for key := range groups {
+		sort.Strings(groups[key])
+		groups[key] = removeDuplicates(groups[key])
+		if len(groups[key]) == 1 {
+			delete(groups, key)
+		}
+	}
+
+	return groups
+}
+
+func sortLetters(word string) string {
+	letters := strings.Split(word, "")
+	sort.Strings(letters)
+	return strings.Join(letters, "")
+}
+
+func removeDuplicates(words []string) []string {
+	seen := make(map[string]struct{}, len(words))
+	j := 0
+	for _, v := range words {
+		if _, ok := seen[v]; ok {
+			continue
+		}
+		seen[v] = struct{}{}
+		words[j] = v
+		j++
+	}
+	return words[:j]
+}
+
+func main() {
+	words := []string{"пятак", "пятка", "тяпка", "листок", "слиток", "столик"}
+	result := findAnagramGroups(words)
+	fmt.Println(result)
 }

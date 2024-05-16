@@ -89,13 +89,6 @@ func (u User) GetBalance() float64 {
 	return u.Card.Balance
 }
 
-//package main
-//
-//import (
-//"fmt"
-//"github.com/AtaullinShamil/L2/pattern"
-//)
-//
 //var (
 //	bank = pattern.Bank{
 //		Name:  "Банк",

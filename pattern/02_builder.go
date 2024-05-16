@@ -8,6 +8,9 @@ import "fmt"
 	https://en.wikipedia.org/wiki/Builder_pattern
 */
 
+// Плюсы: изоляция сложности,гибкость, расширяемость.
+// Минусы: большое количество объектов, трудности в поддержке, отсутствие единой точки входа.
+
 const (
 	AsusCollectorType = "asus"
 	HpCollectorType   = "hp"
@@ -142,10 +145,6 @@ func (f *Factory) CreateComputer() Computer {
 	return f.Collector.GetComputer()
 }
 
-//package main
-//
-//import "github.com/AtaullinShamil/L2/pattern"
-//
 //func main() {
 //	asus := pattern.GetCollectorType("asus")
 //	hp := pattern.GetCollectorType("hp")
